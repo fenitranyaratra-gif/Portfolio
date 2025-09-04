@@ -1,18 +1,34 @@
 "use client";
 
 import { navItems } from "@/data";
+import dynamic from "next/dynamic";
 
-import Hero from "@/components/Hero";
-import Grid from "@/components/Grid";
+// Composants browser-only (lazy load, pas de SSR)
+const Hero = dynamic(() => import("@/components/Hero"), { ssr: false });
+const Grid = dynamic(() => import("@/components/Grid"), { ssr: false });
+const ProjectDesign = dynamic(
+  () => import("@/components/ProjectDesign").then((mod) => mod.ProjectDesign),
+  { ssr: false }
+);
+
+const TimelineExperience = dynamic(
+  () =>
+    import("@/components/TimelineExperience").then(
+      (mod) => mod.TimelineExperience
+    ),
+  { ssr: false }
+);
+
+const RecentProjects = dynamic(() => import("@/components/RecentProjects"), {
+  ssr: false,
+});
+const Clients = dynamic(() => import("@/components/Clients"), { ssr: false });
+
+// Composants pure UI / pas de DOM spécifique
 import Footer from "@/components/Footer";
-import Clients from "@/components/Clients";
 import Approach from "@/components/Approach";
-import Experience from "@/components/Experience";
-import RecentProjects from "@/components/RecentProjects";
-import { FloatingNav } from "@/components/ui/FloatingNavbar";
-import { ProjectDesign } from "@/components/ProjectDesign";
-import { TimelineExperience } from "@/components/TimelineExperience";
 import Education from "@/components/Education";
+import { FloatingNav } from "@/components/ui/FloatingNavbar";
 
 const Home = () => {
   return (
@@ -21,12 +37,12 @@ const Home = () => {
         <FloatingNav navItems={navItems} />
         <Hero />
         <Grid />
-        <ProjectDesign></ProjectDesign>
-        <TimelineExperience></TimelineExperience>
+        <ProjectDesign />
+        <TimelineExperience />
         <RecentProjects />
-        <Clients />
-        <Education></Education>
-        <Approach />
+        {/* <Clients /> */}
+        <Education />
+        {/* <Approach /> */}
         <Footer />
       </div>
     </main>
